@@ -1,0 +1,53 @@
+1st
+
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        visited_nodes = set()
+        current_node = head
+        while current_node:
+            if current_node in visited_nodes:
+                return current_node
+            visited_nodes.add(current_node)
+            current_node = current_node.next
+        return None
+```
+
+これをうさぎと亀でやるとどうなるんだろう？
+サイクルを検出したあと、サイクルの始まりを見つけるには？
+わからん
+
+2nd
+解説動画確認
+巧妙なトリックだけど自分ではすぐに思いつかないな
+
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        fast = head
+        slow = head
+        while fast and fast.next:
+            fast = fast.next.next
+            slow = slow.next
+            if fast is slow:
+                slow = head
+                while slow is not fast:
+                    fast = fast.next
+                    slow = slow.next
+                return fast
+        return None
+```
+
+
