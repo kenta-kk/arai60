@@ -50,4 +50,35 @@ class Solution:
         return None
 ```
 
+2024/7/14 追記
+コメントなどを参考にして修正したうさぎと亀アルゴリズムのコード
+主な修正点は以下のとおり
+- 関数化して処理を分ける
+- サイクル開始地点を探す処理のときにおける、fastとslowの変数名の変更
+- fastとslowjへの代入の仕方をシンプルにする
+
+```Python
+
+class Solution:
+    def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        from_catch_up = self.getCatchUp(head)
+        from_start = head
+        if from_catch_up == None:
+            return None
+        while from_catch_up != from_start:
+            from_catch_up = from_catch_up.next
+            from_start = from_start.next
+        return from_start
+
+    def getCatchUp(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        fast = slow = head
+        while fast and fast.next:
+            fast = fast.next.next
+            slow = slow.next
+            if fast == slow:
+                return fast
+        else:
+            return None
+
+```
 
