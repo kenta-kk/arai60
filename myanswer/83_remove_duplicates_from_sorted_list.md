@@ -137,3 +137,37 @@ class Solution:
 
 ```
 
+再帰でも書けるようなので、書いてみる。
+
+参考
+https://github.com/TORUS0818/leetcode/blob/83/easy/83/practice.md
+
+```python
+
+class Solution:
+    def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        if head is None or head.next is None:
+            return head
+        if head.val == head.next.val:
+            head = self.deleteDuplicates(head.next)
+        else:
+            head.next = self.deleteDuplicates(head.next)
+        return head
+
+```
+
+うーーーん、まだ再帰の解法よくわかってない
+具体例使って手書きで考えてみよう。
+
+たとえば、`head = [1,2,2,3,4,4]` として考えてみる。
+deleteDuplicatesという関数を`f`として表す。
+
+- `[2,2,3,4,4] ← f([2,2,3,4,4])` で、Returnが `[1,f([2,2,3,4,4])]`
+- `[2,2,3,4,4] ← f([2,3,4,4])` で、Returnが `f([2,3,4,4])` だから、`f([2,2,3,4,4])] == f([2,3,4,4])` となる
+- `[3,4,4] ← f([3,4,4])` で、Returnが `[2,f([3,4,4])]` だから、`f([2,3,4,4]) == [2, f([3,4,4])]` となる。
+- `[4,4] ← f([4,4])` で、Returnが `[3,f([4,4])]` だから、`f([3,4,4]) == [3,f([4,4])]` となる。
+- `[4,4] ← f[4]` で、Returnが `f([4])` だから、`f([4,4]) == f([4])` となる。
+- Returnが `[4]` だから、`f([4]) == [4]` となる。
+- 以上から、逆にたどっていって代入していき一番最初のReturnが `[1,2,3,4]` だったとわかる。
+
+今のところ自分でこれをぱっと書ける自信はない。
